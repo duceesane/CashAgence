@@ -1,0 +1,86 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Xaqiiji — Admin Cash Agance{% endblock %}
+{% block page_title %}{% if action == 'approve' %}Oggolow Codsi{% else %}Diid Codsi{% endif %}{% endblock %}
+
+{% block content %}
+<div style="max-width:480px;margin:0 auto;">
+  <div style="background:white;border-radius:20px;padding:32px;box-shadow:0 2px 16px rgba(0,0,0,.07);text-align:center;">
+
+    <!-- Icon -->
+    <div style="width:64px;height:64px;border-radius:20px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;
+                background:{% if action == 'approve' %}#e8fdf5{% else %}#fff0f3{% endif %};">
+      {% if action == 'approve' %}
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00c896" stroke-width="2.5">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      {% else %}
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff4d6d" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      {% endif %}
+    </div>
+
+    <h2 style="font-size:20px;font-weight:800;color:#0d1b2a;margin-bottom:6px;">
+      {% if action == 'approve' %}Ma oggoshahay codsiган?{% else %}Ma diidaysaa codsigan?{% endif %}
+    </h2>
+    <p style="font-size:13px;color:#9ca3af;margin-bottom:28px;">
+      {% if action == 'approve' %}
+        Lacagtu waxay ku dari doontaa balance-ka wallet-ka si toos ah.
+      {% else %}
+        Codsigu wuu xidhmi doonaa. Lacag kuma dari doonto balance-ka.
+      {% endif %}
+    </p>
+
+    <!-- Request detail card -->
+    <div style="background:#f9fafb;border-radius:14px;padding:16px 20px;margin-bottom:24px;text-align:left;">
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+        <span style="font-size:12px;color:#9ca3af;">Agent</span>
+        <span style="font-size:13px;font-weight:700;color:#0d1b2a;">
+          {{ req.agent.get_full_name|default:req.agent.username }}
+        </span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+        <span style="font-size:12px;color:#9ca3af;">Wallet</span>
+        <span style="font-size:13px;font-weight:700;color:#0d1b2a;">{{ req.wallet.name }}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+        <span style="font-size:12px;color:#9ca3af;">Xaddiga</span>
+        <span style="font-size:18px;font-weight:800;color:{% if action == 'approve' %}#00c896{% else %}#ff4d6d{% endif %};">
+          ${{ req.amount }}
+        </span>
+      </div>
+      {% if req.phone %}
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+        <span style="font-size:12px;color:#9ca3af;">Telefoon</span>
+        <span style="font-size:13px;font-weight:600;color:#0d1b2a;">{{ req.phone }}</span>
+      </div>
+      {% endif %}
+      {% if req.note %}
+      <div style="padding:8px 0;">
+        <span style="font-size:12px;color:#9ca3af;display:block;margin-bottom:4px;">Xusuus</span>
+        <span style="font-size:13px;color:#6b7280;">{{ req.note }}</span>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Action buttons -->
+    <div style="display:flex;gap:10px;">
+      <a href="{% url 'core:admin_requests' %}"
+         style="flex:1;background:#f2f4f7;color:#6b7280;border-radius:12px;padding:13px;font-size:14px;font-weight:700;text-decoration:none;display:block;text-align:center;">
+        Jooji
+      </a>
+      <form method="post" style="flex:2;">
+        {% csrf_token %}
+        <button type="submit"
+          style="width:100%;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;
+                 background:{% if action == 'approve' %}#00c896{% else %}#ff4d6d{% endif %};
+                 color:white;
+                 box-shadow:0 4px 16px {% if action == 'approve' %}rgba(0,200,150,.3){% else %}rgba(255,77,109,.3){% endif %};">
+          {% if action == 'approve' %}✓ Haa, Oggolow{% else %}✗ Haa, Diid{% endif %}
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

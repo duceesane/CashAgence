@@ -1,0 +1,127 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Isticmaale Cusub — Admin Cash Agance{% endblock %}
+{% block page_title %}Isticmaale Cusub Samee{% endblock %}
+
+{% block content %}
+<div style="max-width:640px;">
+
+  <div style="background:white;border-radius:20px;padding:clamp(20px,3vw,32px);
+              box-shadow:0 2px 16px rgba(0,0,0,.06);">
+
+    <form method="POST" action="{% url 'create-user'%}">
+      {% csrf_token %}
+
+      <!-- ── Section: Macluumaadka Shakhsiga ── -->
+      <p style="font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;
+                letter-spacing:.6px;margin-bottom:14px;">Macluumaadka Shakhsiga</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+        <div>
+          <label class="f-label">Magaca Hore</label>
+          <input type="text" name="first_name"
+                 value="{{ post.first_name|default:'' }}"
+                 placeholder="first name" class="f-input">
+        </div>
+        <div>
+          <label class="f-label">Magaca Dambe</label>
+          <input type="text" name="last_name"
+                 value="{{ post.last_name|default:'' }}"
+                 placeholder="last name" class="f-input">
+        </div>
+        <div style="grid-column:1/-1;">
+          <label class="f-label">Username (Username) *</label>
+          <input type="text" name="Username" required
+                 value="{{ post.username|default:'' }}"
+                 placeholder="username" class="f-input">
+        </div>
+        <div>
+          <label class="f-label">Password *</label>
+          <input type="password" name="password" required
+                 placeholder="Min 8 xaraf" class="f-input">
+        </div>
+        <div>
+          <label class="f-label">Role</label>
+          <select name="is_staff" class="f-input">
+            <option value="on" {% if post.is_staff == 'on' %}selected{% endif %}>>👤 Agent</option>
+            <option value="on" {% if post.is_staff == 'on' %}selected{% endif %}>🛡 Admin (Staff)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div style="border-top:1px solid #f0f0f0;margin:20px 0 18px;"></div>
+
+      <!-- ── Section: Wallet (optional) ── -->
+      <p style="font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;
+                letter-spacing:.6px;margin-bottom:4px;">Wallet (Ikhtiyaari)</p>
+      <p style="font-size:12px;color:#9ca3af;margin-bottom:14px;">
+        Haddaad dooneyso, wallet-ka agent-ka ku dar isla markaas.
+      </p>
+
+      <div style="background:#f9fafb;border-radius:14px;padding:16px;display:grid;
+                  grid-template-columns:1fr 1fr;gap:14px;" x-data="{addWallet:false}">
+
+        <div style="grid-column:1/-1;display:flex;align-items:center;gap:10px;">
+          <input type="checkbox" id="addWallet" @change="addWallet=!addWallet"
+                 style="width:16px;height:16px;accent-color:#00c896;cursor:pointer;">
+          <label for="addWallet" style="font-size:13px;font-weight:600;color:#0d1b2a;cursor:pointer;">
+            Wallet u samee isticmaalahan
+          </label>
+        </div>
+
+        <div x-show="addWallet" style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div>
+            <label class="f-label">Magaca Wallet *</label>
+            <input type="text" name="wallet_name"
+                   value="{{ post.wallet_name|default:'' }}"
+                   placeholder="1xbet, Dahabshiil..." class="f-input">
+          </div>
+          <div>
+            <label class="f-label">Logo (2 xaraf)</label>
+            <input type="text" name="wallet_logo" maxlength="4"
+                   value="{{ post.wallet_logo|default:'' }}"
+                   placeholder="1× / DH" class="f-input">
+          </div>
+          <div style="grid-column:1/-1;">
+            <label class="f-label">Goobta</label>
+            <input type="text" name="wallet_location"
+                   value="{{ post.wallet_location|default:'' }}"
+                   placeholder="Kismayo — Aargo 8" class="f-input">
+          </div>
+          <div style="grid-column:1/-1;">
+            <label class="f-label">EPOS ID *</label>
+            <input type="text" name="wallet_epos"
+                   value="{{ post.wallet_epos|default:'' }}"
+                   placeholder="1175161" class="f-input">
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Buttons ── -->
+      <div style="display:flex;gap:10px;margin-top:24px;">
+        <a href=""
+           style="flex:1;background:#f2f4f7;color:#6b7280;border-radius:12px;padding:13px;
+                  font-size:14px;font-weight:700;text-decoration:none;text-align:center;display:block;">
+          Jooji
+        </a>
+        <button type="submit"
+                style="flex:2;background:#00c896;color:white;border:none;border-radius:12px;
+                       padding:13px;font-size:14px;font-weight:700;cursor:pointer;
+                       box-shadow:0 4px 16px rgba(0,200,150,.3);">
+          ✓ Samee Isticmaale
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<style>
+.f-label{font-size:12px;font-weight:600;color:#6b7280;display:block;margin-bottom:7px;}
+.f-input{width:100%;border:1.5px solid #e5e7eb;border-radius:11px;padding:11px 14px;
+          font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;
+          background:white;color:#0d1b2a;transition:border-color .2s;}
+.f-input:focus{border-color:#00c896;}
+select.f-input{cursor:pointer;}
+</style>
+{% endblock %}

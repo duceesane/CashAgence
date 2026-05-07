@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Payout — Cash Agance{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<div class="page-header">
+  <a href="{% url 'dashboard'%}" class="back-btn">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0d1b2a" stroke-width="2.5">
+      <path d="M19 12H5M12 5l-7 7 7 7"/>
+    </svg>
+  </a>
+  <span class="header-title">Payout</span>
+</div>
+
+<div class="body-scroll" style="padding:clamp(14px,3vw,22px) 0;">
+  <!-- Icon & Title -->
+  <div style="text-align:center;margin-bottom:clamp(14px,3vw,20px);">
+    <div style="width:clamp(52px,10vw,66px);height:clamp(52px,10vw,66px);background:#fff0f3;
+                border-radius:18px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:9px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ff4d6d" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8l4 4-4 4"/>
+      </svg>
+    </div>
+    <p style="font-size:clamp(16px,4vw,20px);font-weight:800;color:#0d1b2a;">Dir Lacag</p>
+    <p style="font-size:clamp(11px,2.5vw,13px);color:#9ca3af;margin-top:3px;">
+      Buuxi xogta si aad u dirto
+    </p>
+  </div>
+
+  <!-- Form Card -->
+  <div class="form-card">
+    <form method="post" action="#">
+      {% csrf_token %}
+
+    
+      <!-- Wallet Selection -->
+      <div class="input-wrap">
+        <label class="input-label">Dooro Mobcash ID</label>
+        <select name="marchent_id" class="input-field">
+          {% for w in wallet%}
+          <option value="{{w.epos_id}}">{{w.epos_id}}</option>
+          
+          {% endfor%}
+        </select>
+      </div>
+
+      <!-- Amount Input -->
+      <div class="input-wrap">
+        <label class="input-label">Cadadka (Amount)</label>
+        <div class="input-rel">
+          <span class="input-prefix red">$</span>
+          <input type="number" name="amount" step="0.01" min="1"
+                 placeholder="0.00" class="input-field" style="padding-left:28px;" required>
+        </div>
+      </div>
+
+  
+{% comment %} 
+      <!-- Warning Box -->
+      <div class="warn-box" style="display:flex; gap:10px; background:#fffbeb; padding:12px; border-radius:12px; margin-bottom:20px;">
+        <span style="font-size:15px; flex-shrink:0;">⚠️</span>
+        <p style="font-size:clamp(11px,2.5vw,12px); color:#d97706; font-weight:500; margin:0;">
+          Lacagta marka la diro lama soo celin karo. Hubi lambarka telefoonka si sax ah.
+        </p>
+      </div> {% endcomment %}
+
+      <button type="submit" class="btn-payout">Xaqiiji Payout</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

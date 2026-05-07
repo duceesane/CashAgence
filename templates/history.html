@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Taariikhda — Cash Agance{% endblock %}
+
+{% block content %}
+<div class="topbar">
+  <span class="topbar-title">Taariikhda</span>
+</div>
+
+<!-- Filter chips -->
+<div class="row" style="gap:clamp(6px,1.5vw,9px);padding:0 clamp(12px,3vw,20px) clamp(8px,1.5vw,12px);
+                        overflow-x:auto;flex-shrink:0;">
+  {% for f in mytags %}
+    <a href="?filter={{ f }}"
+       class="chip {% if filter_type == f %}chip-on{% else %}chip-off{% endif %}">
+      {{ f }}
+    </a>
+  {% endfor %}
+</div>
+
+<div class="body-scroll" style="padding:0 clamp(12px,3vw,20px) clamp(10px,2vw,16px);">
+
+  <!-- Summary cards -->
+  <div class="row" style="gap:clamp(8px,1.5vw,10px);margin-bottom:clamp(10px,2vw,14px);">
+    <div style="flex:1;background:linear-gradient(135deg,#00c896,#00a87a);
+                border-radius:clamp(12px,2.5vw,16px);padding:clamp(12px,2vw,16px);">
+      <p style="font-size:clamp(10px,2vw,11px);color:rgba(255,255,255,.7);margin-bottom:3px;">
+        Wadarta Deposits
+      </p>
+      <p style="font-size:clamp(15px,3.5vw,18px);font-weight:800;color:white;">
+        ${{ total_deposit|floatformat:2 }}
+      </p>
+    </div>
+    <div style="flex:1;background:linear-gradient(135deg,#ff4d6d,#e03050);
+                border-radius:clamp(12px,2.5vw,16px);padding:clamp(12px,2vw,16px);">
+      <p style="font-size:clamp(10px,2vw,11px);color:rgba(255,255,255,.7);margin-bottom:3px;">
+        Wadarta Payouts
+      </p>
+      <p style="font-size:clamp(15px,3.5vw,18px);font-weight:800;color:white;">
+        ${{ total_payout|floatformat:2 }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Transaction list -->
+  <div class="info-card">
+    {% for txn in transactions %}
+      {% include "component/transaction_item.html" with txn=txn %}
+    {% empty %}
+      <p style="text-align:center;color:#9ca3af;padding:24px;font-size:13px;">
+        Transactions lama helin.
+      </p>
+    {% endfor %}
+  </div>
+
+</div>
+
+{% include "partials/_bottom_nav.html" %}
+{% endblock %}

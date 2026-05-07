@@ -1,0 +1,54 @@
+<nav class="bottom-nav">
+
+  {# Dashboard #}
+  <a href="{% url 'dashboard'%}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+         stroke="{% if active_nav == 'dashboard' %}#00c896{% else %}#9ca3af{% endif %}" stroke-width="2">
+      <rect x="3" y="3" width="7" height="7" rx="1"/>
+      <rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
+      <rect x="14" y="14" width="7" height="7" rx="1"/>
+    </svg>
+    <span class="nav-label" style="color:{% if active_nav == 'dashboard' %}#00c896{% else %}#9ca3af{% endif %}">Dashboard</span>
+  </a>
+
+  {# Wallets #}
+  <a href="{% url 'wallet'%}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+         stroke="{% if active_nav == 'wallets' %}#00c896{% else %}#9ca3af{% endif %}" stroke-width="2">
+      <rect x="2" y="5" width="20" height="14" rx="3"/>
+      <circle cx="16" cy="12" r="2" fill="{% if active_nav == 'wallets' %}#00c896{% else %}#9ca3af{% endif %}"/>
+    </svg>
+    <span class="nav-label" style="color:{% if active_nav == 'wallets' %}#00c896{% else %}#9ca3af{% endif %}">Wallets</span>
+  </a>
+
+  {# FAB — Top-Up #}
+  <div class="nav-item">
+    <a href="{% url 'topup'%}" class="fab">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+        <path d="M12 5v14M5 12h14"/>
+      </svg>
+    </a>
+  </div>
+
+  {# History #}
+  <a href="{% url 'history'%}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+         stroke="{% if active_nav == 'history' %}#00c896{% else %}#9ca3af{% endif %}" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M12 6v6l4 2"/>
+    </svg>
+    <span class="nav-label" style="color:{% if active_nav == 'history' %}#00c896{% else %}#9ca3af{% endif %}">History</span>
+  </a>
+
+  {# Profile #}
+  <a href="{% url 'profile'%}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+         stroke="{% if active_nav == 'profile' %}#00c896{% else %}#9ca3af{% endif %}" stroke-width="2">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+    </svg>
+    <span class="nav-label" style="color:{% if active_nav == 'profile' %}#00c896{% else %}#9ca3af{% endif %}">Profile</span>
+  </a>
+
+</nav>

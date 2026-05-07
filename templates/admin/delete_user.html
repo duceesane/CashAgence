@@ -1,0 +1,68 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Tir Isticmaale — Admin Cash Agance{% endblock %}
+{% block page_title %}Tir Isticmaale{% endblock %}
+
+{% block content %}
+<div style="max-width:420px;margin:0 auto;">
+  <div style="background:white;border-radius:20px;padding:32px;
+              box-shadow:0 2px 16px rgba(0,0,0,.07);text-align:center;">
+
+    <!-- Icon -->
+    <div style="width:64px;height:64px;background:#fff0f3;border-radius:20px;
+                display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff4d6d" stroke-width="2.5">
+        <polyline points="3 6 5 6 21 6"/>
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+        <path d="M10 11v6M14 11v6"/>
+        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+      </svg>
+    </div>
+
+    <h2 style="font-size:20px;font-weight:800;color:#0d1b2a;margin-bottom:6px;">
+      Ma hubtaa?
+    </h2>
+    <p style="font-size:13px;color:#9ca3af;margin-bottom:24px;">
+      Tallaabadani waa mid xoog leh oo lama soo celin karto.
+    </p>
+
+    <!-- User info -->
+    <div style="background:#f9fafb;border-radius:14px;padding:16px;margin-bottom:24px;text-align:left;">
+      <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0f0f0;">
+        <span style="font-size:12px;color:#9ca3af;">Magaca</span>
+        <span style="font-size:13px;font-weight:700;">{{ u.get_full_name|default:u.username }}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0f0f0;">
+        <span style="font-size:12px;color:#9ca3af;">Email</span>
+        <span style="font-size:13px;font-weight:600;color:#6b7280;">{{ u.email }}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0f0f0;">
+        <span style="font-size:12px;color:#9ca3af;">Wallets</span>
+        <span style="font-size:13px;font-weight:700;color:#ff4d6d;">{{ u.wallets.count }} (way tirmi doonaan)</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:7px 0;">
+        <span style="font-size:12px;color:#9ca3af;">Codsiyada</span>
+        <span style="font-size:13px;font-weight:700;color:#ff4d6d;">{{ u.money_requests.count }} (way tirmi doonaan)</span>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div style="display:flex;gap:10px;">
+      <a href="{% url 'core:admin_users' %}"
+         style="flex:1;background:#f2f4f7;color:#6b7280;border-radius:12px;padding:13px;
+                font-size:14px;font-weight:700;text-decoration:none;text-align:center;display:block;">
+        Jooji
+      </a>
+      <form method="post" style="flex:2;">
+        {% csrf_token %}
+        <button type="submit"
+                style="width:100%;background:#ff4d6d;color:white;border:none;border-radius:12px;
+                       padding:13px;font-size:14px;font-weight:700;cursor:pointer;
+                       box-shadow:0 4px 16px rgba(255,77,109,.3);">
+          🗑 Haa, Tir
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Cash Agance{% endblock %}
+
+{% block content %}
+<!-- ══ TOP BAR ══ -->
+<div class="topbar">
+  <div class="row" style="gap:clamp(8px,2vw,12px);">
+    <div class="logo-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2">
+        <rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/>
+      </svg>
+    </div>
+    <span class="topbar-title">Cash Agance</span>
+  </div>
+  <a href="#" class="menu-btn" title="Ka Bax">
+    <span></span><span></span><span></span>
+  </a>
+</div>
+
+<!-- ══ SCROLLABLE BODY ══ -->
+<div class="body-scroll">
+
+  <!-- Balance Card -->
+  {% include "partials/_balanceCard.html" with balance=wallet.balance %}
+
+  <!-- Action Buttons -->
+  <div class="action-row">
+    <a href="{% url 'topup'%}" class="action-card">
+      <div class="action-icon" style="background:#e8fdf5;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00c896" stroke-width="2.2">
+          <circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>
+        </svg>
+      </div>
+      <span class="action-label">Top-Up</span>
+    </a>
+    <a href="{% url 'payout'%}" class="action-card">
+      <div class="action-icon" style="background:#fff0f3;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff4d6d" stroke-width="2.2">
+          <circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8l4 4-4 4"/>
+        </svg>
+      </div>
+      <span class="action-label">Payout</span>
+    </a>
+  </div>
+
+  <!-- Wallets Section -->
+  <div class="section-header">
+    <span class="section-title">Wallets</span>
+    <a href="{% url 'wallet'%}" class="see-all">Show All →</a>
+  </div>
+
+  
+    {% include "component/walletCard.html"  with wallet=wallet%}
+  
+
+  <!-- Recent Transactions -->
+  <div class="section-header" style="margin-top:8px;">
+    <span class="section-title">Transactions Dambe</span>
+    <a href="{% url 'history'%}" class="see-all">Show All →</a>
+  </div>
+
+  <div class="info-card" style="margin:0 clamp(12px,3vw,20px) clamp(10px,2vw,14px);">
+    {% for txn in transactions %}
+      {% include "component/transaction_item.html" with txn=txn %}
+    {% empty %}
+      <p style="text-align:center;color:#9ca3af;padding:16px;font-size:13px;">Transactions lama helin.</p>
+    {% endfor %}
+  </div>
+
+  <div style="height:8px;"></div>
+</div>
+
+{% include "partials/_bottom_nav.html" %}
+{% endblock %}

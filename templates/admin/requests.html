@@ -1,0 +1,128 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Codsiyada — Admin Cash Agance{% endblock %}
+{% block page_title %}Codsiyada Lacagta{% endblock %}
+
+{% block content %}
+
+<!-- Filter chips -->
+<div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;">
+  <a href="?status=pending"
+     class="filter-chip {% if status_filter == 'pending' %}on{% endif %}">
+    ⏳ Sugaya
+    {% if pending_count %}
+      <span style="background:#ff4d6d;color:white;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;margin-left:4px;">
+        {{ pending_count }}
+      </span>
+    {% endif %}
+  </a>
+  <a href="?status=approved"
+     class="filter-chip {% if status_filter == 'approved' %}on{% endif %}">
+    ✓ La Oggolaaday
+  </a>
+  <a href="?status=rejected"
+     class="filter-chip {% if status_filter == 'rejected' %}on{% endif %}">
+    ✗ La Diiday
+  </a>
+</div>
+
+<!-- Table -->
+<div class="tcard">
+  <div class="tcard-header">
+    <span class="tcard-title">
+      {% if status_filter == 'pending' %}Codsiyada Sugaya
+      {% elif status_filter == 'approved' %}Codsiyada La Oggolaaday
+      {% else %}Codsiyada La Diiday{% endif %}
+      <span style="color:#9ca3af;font-weight:500;font-size:13px;">({{ requests.count }})</span>
+    </span>
+  </div>
+
+  {% if requests %}
+  <div class="twrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Agent</th>
+          <th>Wallet</th>
+          <th>Xaddiga</th>
+          <th>Telefoon</th>
+          <th>Xusuus</th>
+          <th>Xaaladda</th>
+          <th>Taariikhda</th>
+          {% if status_filter == 'pending' %}<th>Tallaabooyin</th>{% endif %}
+          {% if status_filter != 'pending' %}<th>Xaqiijiyay</th>{% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in requests %}
+        <tr>
+          <td style="color:#9ca3af;font-size:11px;font-weight:700;">#{{ req.pk }}</td>
+          <td>
+            <div style="font-weight:700;">{{ req.agent.get_full_name|default:req.agent.username }}</div>
+            <div style="font-size:11px;color:#9ca3af;">{{ req.agent.email }}</div>
+          </td>
+          <td>
+            <div style="font-weight:600;">{{ req.wallet.name }}</div>
+            <div style="font-size:11px;color:#9ca3af;">{{ req.wallet.epos_id }}</div>
+          </td>
+          <td style="font-size:15px;font-weight:800;color:#0d1b2a;">${{ req.amount }}</td>
+          <td style="color:#6b7280;font-size:12px;">{{ req.phone|default:"—" }}</td>
+          <td style="color:#6b7280;font-size:12px;max-width:140px;">
+            {{ req.note|default:"—"|truncatechars:40 }}
+          </td>
+          <td>
+            <span class="bdg
+              {% if req.status == 'pending' %}bdg-pending
+              {% elif req.status == 'approved' %}bdg-approved
+              {% else %}bdg-rejected{% endif %}">
+              <span class="bdg-dot" style="background:
+                {% if req.status == 'pending' %}#3b82f6
+                {% elif req.status == 'approved' %}#059669
+                {% else %}#ff4d6d{% endif %};"></span>
+              {{ req.get_status_display }}
+            </span>
+          </td>
+          <td style="font-size:11px;color:#9ca3af;">{{ req.created_at|date:"M d, Y H:i" }}</td>
+
+          {% if status_filter == 'pending' %}
+          <td>
+            <div style="display:flex;gap:6px;">
+              <form method="post" action="{% url 'approved' req.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-approve">✓ Oggolow</button>
+              </form>
+              <form method="post" action="{% url 'rejected' req.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-reject">✗ Diid</button>
+              </form>
+            </div>
+          </td>
+          {% endif %}
+
+          {% if status_filter != 'pending' %}
+          <td style="font-size:11px;color:#6b7280;">
+            {% if req.reviewed_by %}
+              {{ req.reviewed_by.get_full_name|default:req.reviewed_by.username }}<br>
+              <span style="color:#9ca3af;">{{ req.reviewed_at|date:"M d, H:i" }}</span>
+            {% else %}—{% endif %}
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div style="text-align:center;padding:48px 20px;">
+    <div style="width:56px;height:56px;background:#f3f4f6;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+        <path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/>
+      </svg>
+    </div>
+    <p style="font-size:15px;font-weight:700;color:#0d1b2a;margin-bottom:4px;">Codsi lama helin</p>
+    <p style="font-size:13px;color:#9ca3af;">Xaaladdan codsiyada kuma jiraan wax.</p>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

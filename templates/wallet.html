@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Wallet — Cash Agance{% endblock %}
+
+{% block content %}
+<div class="topbar">
+  <span class="topbar-title">Wallets-kayga</span>
+</div>
+
+<div class="body-scroll" style="padding:clamp(6px,1.5vw,10px) 0;">
+  {% for w in wallets %}
+        {% include "component/walletCard.html" with wallet=w%}
+
+    {%endfor%}
+    {% comment %} <p style="text-align:center;color:#9ca3af;padding:40px 24px;font-size:13px;">
+      Wallet lama helin.
+    </p> {% endcomment %}
+  
+  <div style="height:6px;"></div>
+</div>
+
+{% include "partials/_bottom_nav.html" %}
+{% endblock %}

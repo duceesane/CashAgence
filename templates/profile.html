@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Profile — Cash Agance{% endblock %}
+
+{% block content %}
+<div class="topbar">
+  <span class="topbar-title">Profile</span>
+</div>
+
+<div class="body-scroll" style="padding:0 clamp(12px,3vw,20px) clamp(12px,3vw,20px);">
+
+  <!-- Avatar & Name -->
+  <div style="text-align:center;margin-bottom:clamp(14px,3vw,20px);">
+    <div class="avatar">
+        
+      {{ request.user.first_name|first|upper }}{{ request.user.last_name|first|upper }}
+    </div>
+    <p style="font-size:clamp(16px,4vw,20px);font-weight:800;color:#0d1b2a;">
+      {{ request.user.get_full_name|default:request.user.username }} 
+      
+    </p>
+    <p style="font-size:clamp(11px,2.5vw,13px);color:#9ca3af;margin-top:2px;">
+      {{ request.user.username}} 
+      
+    </p>
+    <div style="display:inline-flex;align-items:center;gap:6px;background:#e8fdf5;
+                border-radius:20px;padding:5px 13px;margin-top:8px;">
+      <div class="dot" style="background:#00c896;"></div>
+      <span style="font-size:clamp(11px,2.5vw,12px);color:#00c896;font-weight:600;">Agent Active</span>
+    </div>
+  </div>
+
+  <!-- Stats card -->
+  <div class="dark-card" style="margin-bottom:clamp(10px,2vw,14px);">
+    <p style="color:rgba(255,255,255,.4);font-size:clamp(10px,2vw,11px);
+              margin-bottom:clamp(10px,2vw,14px);text-transform:uppercase;letter-spacing:.5px;">
+      Wadarta Bishaan
+    </p>
+    <div class="row" style="gap:0;">
+      <div style="flex:1;text-align:center;">
+        <p class="green" style="font-size:clamp(16px,4vw,20px);font-weight:800;">
+            
+          $300
+        </p>
+        <p style="color:rgba(255,255,255,.4);font-size:clamp(9px,2vw,11px);margin-top:3px;">Commission</p>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,.1);align-self:stretch;"></div>
+      <div style="flex:1;text-align:center;">
+        <p style="color:white;font-size:clamp(16px,4vw,20px);font-weight:800;">55</p>
+        <p style="color:rgba(255,255,255,.4);font-size:clamp(9px,2vw,11px);margin-top:3px;">Transactions</p>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,.1);align-self:stretch;"></div>
+      <div style="flex:1;text-align:center;">
+        <p style="color:white;font-size:clamp(16px,4vw,20px);font-weight:800;">{{wallet}}</p>
+        <p style="color:rgba(255,255,255,.4);font-size:clamp(9px,2vw,11px);margin-top:3px;">Wallets</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu rows -->
+  <div class="info-card" style="margin-bottom:clamp(10px,2vw,14px);">
+    <div class="menu-row">
+      <div class="row" style="gap:clamp(8px,2vw,12px);">
+        <span style="font-size:clamp(15px,3.5vw,18px);">🔔</span>
+        <span style="font-size:clamp(13px,3vw,15px);font-weight:600;color:#0d1b2a;">Notifications</span>
+      </div>
+      <div class="row" style="gap:8px;">
+        <span style="background:#ff4d6d;color:white;border-radius:10px;padding:2px 7px;font-size:11px;font-weight:700;">3</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </div>
+    </div>
+    <div class="menu-row">
+      <div class="row" style="gap:clamp(8px,2vw,12px);">
+        <span style="font-size:clamp(15px,3.5vw,18px);">🔒</span>
+        <span style="font-size:clamp(13px,3vw,15px);font-weight:600;color:#0d1b2a;">Security</span>
+      </div>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </div>
+    <div class="menu-row">
+      <div class="row" style="gap:clamp(8px,2vw,12px);">
+        <span style="font-size:clamp(15px,3.5vw,18px);">📞</span>
+        <span style="font-size:clamp(13px,3vw,15px);font-weight:600;color:#0d1b2a;">Support</span>
+      </div>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </div>
+    <div class="menu-row">
+      <div class="row" style="gap:clamp(8px,2vw,12px);">
+        <span style="font-size:clamp(15px,3.5vw,18px);">ℹ️</span>
+        <span style="font-size:clamp(13px,3vw,15px);font-weight:600;color:#0d1b2a;">App v6.0</span>
+      </div>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </div>
+  </div>
+
+  <a href="{% url 'logout'%}" class="btn-red-outline" style="display:block;text-align:center;text-decoration:none;">
+    🚪 Ka Bax
+  </a>
+
+</div>
+
+{% include "partials/_bottom_nav.html" %}
+{% endblock %}

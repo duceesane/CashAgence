@@ -1,0 +1,24 @@
+<div class="txn-item">
+  <div class="row" style="gap:clamp(8px,2vw,12px);">
+    <div class="txn-icon" style="background:{% if txn.is_deposit %}#e8fdf5{% else %}#fff0f3{% endif %}">
+      <span>{% if txn.is_deposit %}↓{% else %}↑{% endif %}</span>
+    </div>
+    <div>
+      <p class="txn-name">{{ txn.wallet.name }}</p>
+      <p class="txn-time">{{ txn.created_at|date:"M d, Y  H:i" }}</p>
+    </div>
+  </div>
+  <span class="txn-amt   {% if txn.status == failed %}red{% else %}
+  {% if txn.is_deposit%}
+  green
+  {%else%}
+  red
+  {%endif%}
+  {% endif %} ">
+    {{ txn.display_amount }}
+    <br/>
+    {{txn.status}}
+  </span>
+  
+ 
+</div>

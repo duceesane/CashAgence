@@ -1,0 +1,8 @@
+{% if messages %}
+  {% for message in messages %}
+    <div class="msg-toast {% if message.tags == 'error' %}msg-error{% else %}msg-success{% endif %}"
+         x-data="{show:true}" x-show="show" x-init="setTimeout(()=>show=false,2500)" x-transition>
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}

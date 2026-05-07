@@ -1,0 +1,27 @@
+{# Usage: {% include "core/components/wallet_card.html" with wallet=wallet %} #}
+<a href="#" class="wallet-card">
+  <div class="row" style="gap:clamp(8px,2vw,12px);margin-bottom:clamp(10px,2vw,14px);">
+    <div class="wallet-logo">{{ wallet.logo }}</div>
+    <div style="flex:1;min-width:0;">
+      <p class="wallet-name">{{wallet.agent.username}}</p>
+      <p class="wallet-loc">{{wallet.location}}</p>
+    </div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2">
+      <path d="M9 18l6-6-6-6"/>
+    </svg>
+  </div>
+  <div class="row" style="gap:clamp(6px,1.5vw,10px);margin-bottom:0;">
+    <div class="stat-box">
+      <p class="stat-label">Balance</p>
+      <p class="stat-value">${{wallet.balance}}</p>
+    </div>
+    <div class="stat-box" style="background:#e8fdf5;">
+      <p class="stat-label green">Commission</p>
+      <p class="stat-value green">${{wallet.commission}}</p>
+    </div>
+  </div>
+  <div class="epos-row">
+    <span style="font-size:clamp(11px,2.5vw,12px);color:#6b7280;font-weight:500;">EPOS ID</span>
+    <span class="green" style="font-size:clamp(12px,2.5vw,14px);font-weight:700;">{{wallet.epos_id}}</span>
+  </div>
+</a>

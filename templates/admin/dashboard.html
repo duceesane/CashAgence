@@ -1,0 +1,122 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Admin Dashboard — Cash Agance{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<!-- Stats -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon" style="background:#eff6ff;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2">
+        <path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/>
+      </svg>
+    </div>
+    <div class="stat-val" style="color:#3b82f6;">{{ pending.count }}</div>
+    <div class="stat-lbl">Codsiyada Sugaya</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background:#e8fdf5;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00c896" stroke-width="2">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <div class="stat-val" style="color:#00c896;">{{ approved }}</div>
+    <div class="stat-lbl">La Oggolaaday</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background:#fff0f3;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff4d6d" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+    <div class="stat-val" style="color:#ff4d6d;">{{ reject }}</div>
+    <div class="stat-lbl">La Diiday</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background:#f3f4f6;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2">
+        <rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/>
+      </svg>
+    </div>
+    <div class="stat-val">{{ total_transaction }}</div>
+    <div class="stat-lbl">Wadarta Codsiyada</div>
+  </div>
+</div>
+
+<!-- Pending requests table -->
+<div class="tcard">
+  <div class="tcard-header">
+    <span class="tcard-title">
+      Codsiyada Sugaya Xaqiijinta
+      {% if pending.count %}
+        <span style="background:#ff4d6d;color:white;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;margin-left:6px;">
+          {{ pending.count }}
+        </span>
+      {% endif %}
+    </span>
+    <a href="" class="btn-primary">Dhami Eeg →</a>
+  </div>
+
+  {% if pending %}
+  <div class="twrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Agent</th>
+          <th>Wallet</th>
+          <th>Xaddiga</th>
+          <th>Telefoon</th>
+          <th>Taariikhda</th>
+          <th>Tallaabooyin</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in pending %}
+        <tr>
+          <td style="color:#9ca3af;font-size:11px;font-weight:700;">#{{ req.pk }}</td>
+          <td>
+            <div style="font-weight:700;color:#0d1b2a;">
+              {{ req.agent.get_full_name|default:req.agent.username }}
+            </div>
+            <div style="font-size:11px;color:#9ca3af;">{{ req.agent.email }}</div>
+          </td>
+          <td>
+            <div style="font-weight:600;">{{ req.wallet.name }}</div>
+            <div style="font-size:11px;color:#9ca3af;">{{ req.wallet.location }}</div>
+          </td>
+          <td style="font-size:16px;font-weight:800;color:#0d1b2a;">${{ req.amount }}</td>
+          <td style="color:#6b7280;">{{ req.phone|default:"—" }}</td>
+          <td style="font-size:11px;color:#9ca3af;">{{ req.created_at|date:"M d, Y H:i" }}</td>
+          <td>
+            <div style="display:flex;gap:6px;">
+              <form method="post" action="{% url 'approved' pk=req.pk%}">
+                {% csrf_token %}
+                <button type="submit" class="btn-approve">✓ Oggolow</button>
+              </form>
+              <form method="post" action="{% url 'rejected' pk=req.pk%}">
+                {% csrf_token %}
+                <button type="submit" class="btn-reject">✗ Diid</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div style="text-align:center;padding:40px 20px;">
+    <div style="width:56px;height:56px;background:#e8fdf5;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00c896" stroke-width="2">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <p style="font-size:15px;font-weight:700;color:#0d1b2a;margin-bottom:4px;">Wax codsi ah ma sugin</p>
+    <p style="font-size:13px;color:#9ca3af;">Dhammaan codsiyada waa la xaqiijiyay ✓</p>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}
