@@ -49,7 +49,7 @@ class Transaction(models.Model):
     txn_type   = models.CharField(max_length=10, choices=TXN_TYPES)
     type_money = models.CharField(max_length=40)
     status     = models.CharField(max_length=10, choices=STATUS, default='pending')
-    created_at = models.DateTimeField(timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
         ordering = ['-created_at']

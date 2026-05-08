@@ -10,6 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+# Luuqadda (waad iska deyn kartaa en-us)
+LANGUAGE_CODE = 'en-us'
+
+# Bedel 'UTC' una beddel 'Africa/Mogadishu'
+TIME_ZONE = 'Africa/Mogadishu'
+
+# Tan ka dhig True si Django u maamulo waqtiga gudaha
+USE_I18N = True
+
+# Tan aad ugu fiirso: Haddii ay True tahay, Django wuxuu database-ka ku kaydiyaa UTC 
+# laakiin Template-ka wuxuu ku tusi doonaa saacadda Soomaaliya.
+USE_TZ = True
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -18,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
+ALLOWED_HOSTS = ['kismayoagence.pythonanywhere.com']
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-l6qutr2z)c)f3z5de&ert$$8l#sn893qk3(0r=hx_m(ce!v$@+'
 LOGIN_URL = 'login'

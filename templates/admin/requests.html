@@ -19,8 +19,8 @@
      class="filter-chip {% if status_filter == 'approved' %}on{% endif %}">
     ✓ La Oggolaaday
   </a>
-  <a href="?status=rejected"
-     class="filter-chip {% if status_filter == 'rejected' %}on{% endif %}">
+  <a href="?status=failed"
+     class="filter-chip {% if status_filter == 'failed' %}on{% endif %}">
     ✗ La Diiday
   </a>
 </div>
@@ -36,7 +36,7 @@
     </span>
   </div>
 
-  {% if requests %}
+  {% if transactions %}
   <div class="twrap">
     <table>
       <thead>
@@ -46,7 +46,7 @@
           <th>Wallet</th>
           <th>Xaddiga</th>
           <th>Telefoon</th>
-          <th>Xusuus</th>
+       
           <th>Xaaladda</th>
           <th>Taariikhda</th>
           {% if status_filter == 'pending' %}<th>Tallaabooyin</th>{% endif %}
@@ -54,11 +54,11 @@
         </tr>
       </thead>
       <tbody>
-        {% for req in requests %}
+        {% for req in transactions %}
         <tr>
           <td style="color:#9ca3af;font-size:11px;font-weight:700;">#{{ req.pk }}</td>
           <td>
-            <div style="font-weight:700;">{{ req.agent.get_full_name|default:req.agent.username }}</div>
+            <div style="font-weight:700;">{{ req.agent.first_name|default:req.agent.username }}</div>
             <div style="font-size:11px;color:#9ca3af;">{{ req.agent.email }}</div>
           </td>
           <td>
@@ -67,9 +67,7 @@
           </td>
           <td style="font-size:15px;font-weight:800;color:#0d1b2a;">${{ req.amount }}</td>
           <td style="color:#6b7280;font-size:12px;">{{ req.phone|default:"—" }}</td>
-          <td style="color:#6b7280;font-size:12px;max-width:140px;">
-            {{ req.note|default:"—"|truncatechars:40 }}
-          </td>
+       
           <td>
             <span class="bdg
               {% if req.status == 'pending' %}bdg-pending

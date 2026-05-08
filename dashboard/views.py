@@ -15,8 +15,7 @@ def index(request):
     wallets = Wallet.objects.filter(agent=request.user).first()
     txns = Transaction.objects.filter(wallet__agent=request.user)[:3]
     fialed = 'failed'
-    for i in txns:
-        print("transactions",i.status)
+ 
     context = {
         "wallet":wallets,
         "transactions":txns,
@@ -188,8 +187,6 @@ def create_user(request):
         user.save()
         wallet.save()
         
-        
-        print(first_name,last_name,Username,password,is_staff,wallet_name,wallet_location,wallet_epos,wallet_logo)
         redirect("create-user")
     return render(request,"admin/create_user.html")
 
@@ -199,13 +196,23 @@ def list_user(request):
     context = {
         "users":users
     }
-    for i in users:
-        print("firstname",i.agent.first_name,"lastname",i.agent.last_name)
+
     
     return render(request,"admin/users.html",context)
 
 def tapupp_request(request):
-    return render(request,"admin/requests.html")
+    
+    status_filter = request.GET.get('status', 'pending')
+    requests = Transaction.objects.all()
+    if status_filter in ("pending",'success','failed'):
+
+        requests = requests.filter(status=status_filter)
+    
+    context = {
+        "transactions":requests,
+        "status_filter":status_filter
+    }
+    return render(request,"admin/requests.html",context)
 
 
 def approved(request,pk):
