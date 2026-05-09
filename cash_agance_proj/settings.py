@@ -30,14 +30,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-ALLOWED_HOSTS = ['kismayoagence.pythonanywhere.com']
+ALLOWED_HOSTS = [
+    'kismayoAgence.pythonanywhere.com',
+    'kismayoagence.pythonanywhere.com',
+    '127.0.0.1',
+    'localhost',
+]
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-l6qutr2z)c)f3z5de&ert$$8l#sn893qk3(0r=hx_m(ce!v$@+'
 LOGIN_URL = 'login'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
 
 
 # Application definition
