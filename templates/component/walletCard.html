@@ -1,27 +1,69 @@
-{# Usage: {% include "core/components/wallet_card.html" with wallet=wallet %} #}
+
 <a href="#" class="wallet-card">
+
+  <!-- Header: logo + name -->
   <div class="row" style="gap:clamp(8px,2vw,12px);margin-bottom:clamp(10px,2vw,14px);">
     <div class="wallet-logo">{{ wallet.logo }}</div>
     <div style="flex:1;min-width:0;">
-      <p class="wallet-name">{{wallet.agent.username}}</p>
-      <p class="wallet-loc">{{wallet.location}}</p>
+      <p class="wallet-name">{{ wallet.name }}</p>
+      <p class="wallet-loc">{{ wallet.location }}</p>
     </div>
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2">
       <path d="M9 18l6-6-6-6"/>
     </svg>
   </div>
-  <div class="row" style="gap:clamp(6px,1.5vw,10px);margin-bottom:0;">
+
+  <!-- Balance + Commission -->
+  <div class="row" style="gap:clamp(6px,1.5vw,10px);margin-bottom:clamp(8px,1.5vw,12px);">
     <div class="stat-box">
       <p class="stat-label">Balance</p>
-      <p class="stat-value">${{wallet.balance}}</p>
+      <p class="stat-value">${{ wallet.balance }}</p>
     </div>
     <div class="stat-box" style="background:#e8fdf5;">
       <p class="stat-label green">Commission</p>
-      <p class="stat-value green">${{wallet.commission}}</p>
+      <p class="stat-value green">${{ wallet.commission }}</p>
     </div>
   </div>
+
+  <!-- Deposits & Withdrawals -->
+  <div style="background:#f9fafb;border-radius:12px;padding:clamp(10px,2vw,13px) clamp(12px,2.5vw,15px);
+              margin-bottom:clamp(8px,1.5vw,12px);">
+    <div style="display:flex;justify-content:space-between;align-items:center;
+                padding-bottom:clamp(6px,1.2vw,9px);border-bottom:1px solid #f0f0f0;">
+      <div style="display:flex;align-items:center;gap:7px;">
+        <div style="width:22px;height:22px;background:#e8fdf5;border-radius:7px;
+                    display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:11px;color:#00c896;font-weight:800;">↓</span>
+        </div>
+        <span style="font-size:clamp(11px,2.5vw,12px);color:#6b7280;font-weight:500;">
+          Deposits ({{ wallet.dep_rate }}%)
+        </span>
+      </div>
+      <span style="font-size:clamp(12px,2.8vw,14px);font-weight:700;color:#0d1b2a;">
+        ${{ wallet.total_deposits|floatformat:2 }}
+      </span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;
+                padding-top:clamp(6px,1.2vw,9px);">
+      <div style="display:flex;align-items:center;gap:7px;">
+        <div style="width:22px;height:22px;background:#fff0f3;border-radius:7px;
+                    display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:11px;color:#ff4d6d;font-weight:800;">↑</span>
+        </div>
+        <span style="font-size:clamp(11px,2.5vw,12px);color:#6b7280;font-weight:500;">
+          Withdrawals ({{ wallet.with_rate }}%)
+        </span>
+      </div>
+      <span style="font-size:clamp(12px,2.8vw,14px);font-weight:700;color:#ff4d6d;">
+        ${{ wallet.total_payouts|floatformat:2 }}
+      </span>
+    </div>
+  </div>
+
+  <!-- EPOS ID -->
   <div class="epos-row">
     <span style="font-size:clamp(11px,2.5vw,12px);color:#6b7280;font-weight:500;">EPOS ID</span>
-    <span class="green" style="font-size:clamp(12px,2.5vw,14px);font-weight:700;">{{wallet.epos_id}}</span>
+    <span class="green" style="font-size:clamp(12px,2.5vw,14px);font-weight:700;">{{ wallet.epos_id }}</span>
   </div>
+
 </a>

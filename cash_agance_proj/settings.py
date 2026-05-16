@@ -9,6 +9,39 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import os  # Wuxuu Django ka caawiyaa inuu la hadlo nidaamka computer-ka (Operating System)
+from pathlib import Path  # Wuxuu maamulaa dariiqyada (paths) faylalka software-ka
+from dotenv import load_dotenv  # Wuxuu soo roraa maktabadii akhrin lahayd faylka .env
+load_dotenv()  # Sadarkan wuxuu amar siinayaa Django inuu hadda akhriyo xogta ku dhex jirta faylka .env
+SECRET_KEY = os.getenv('SECRET_KEY')  
+# Wuxuu leeyahay: "Tag .env, ka raadi erayga 'SECRET_KEY', wixii ku horgudban u dhiib Django"
+DEBUG = os.getenv('DEBUG') == 'True'  
+# .env xogta uu soo celiyo mar walba waa qoraal (String). 
+# Sadarkaan wuxuu leeyahay: "Haddii DEBUG uu la mid yahay qoraalka 'True', ka dhig True (Boolean), haddii kalena ka dhig False."
+
+# Marka hore waxaan ka soo akhrineynaa liiska .env dhexdiisa ku jira
+hosts_input = os.getenv('ALLOWED_HOSTS')
+
+if hosts_input:
+    # Haddii .env laga helo magacyo, waxaan u kala jebineynaa (split) meeshii kooma (,) ay ku taal si ay u noqoto Liis [List]
+    ALLOWED_HOSTS = hosts_input.split(',')
+else:
+    # Haddii sabab kasta faylka .env loo waayo, ku shaqee kuwan caadiga ah si uusan barnaamijku u istaagin
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
+# Ammaanka deegaanka rasmiga ah (Production)
+if not DEBUG:
+    # 1. Ku qasbida HTTPS mar walba
+    SECURE_SSL_REDIRECT = True
+    
+    # 2. Sugidda amniga Cookies-ka (Session iyo CSRF)
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    
+    # 3. Kicinta nidaamka adag ee HSTS (1 sano)
+    SECURE_HSTS_SECONDS = 31536000  # Muddo 1 sano ah oo ilbiriqsiyo ah
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
 
 # Luuqadda (waad iska deyn kartaa en-us)
 LANGUAGE_CODE = 'en-us'
@@ -30,18 +63,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-ALLOWED_HOSTS = [
-    'kismayoAgence.pythonanywhere.com',
-    'kismayoagence.pythonanywhere.com',
-    '127.0.0.1',
-    'localhost',
-]
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-l6qutr2z)c)f3z5de&ert$$8l#sn893qk3(0r=hx_m(ce!v$@+'
+
 LOGIN_URL = 'login'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 
 

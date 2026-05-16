@@ -9,7 +9,17 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;width:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#0d1b2a;overflow:hidden;}
-.app{width:100vw;height:100vh;display:flex;flex-direction:column;background:#f2f4f7;overflow:hidden;position:relative;}
+/* dvh = dynamic viewport height — fixes Chrome mobile browser-bar problem */
+.app{
+  width:100vw;
+  height:100vh;          /* fallback browsers */
+  height:100dvh;         /* Chrome 108+, Safari 15.4+ — shrinks when browser UI shows */
+  display:flex;
+  flex-direction:column;
+  background:#f2f4f7;
+  overflow:hidden;
+  position:relative;
+}
 .body-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .body-scroll::-webkit-scrollbar{display:none;}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:clamp(10px,2vw,18px) clamp(14px,4vw,28px);background:#f2f4f7;flex-shrink:0;}
@@ -44,7 +54,16 @@ html,body{height:100%;width:100%;font-family:'Plus Jakarta Sans',sans-serif;back
 .stat-label{font-size:clamp(9px,2vw,11px);color:#9ca3af;font-weight:500;margin-bottom:3px;text-transform:uppercase;}
 .stat-value{font-size:clamp(14px,3.5vw,17px);font-weight:800;color:#0d1b2a;}
 .epos-row{background:#f0fdf9;border-radius:12px;padding:clamp(9px,1.8vw,13px) clamp(12px,2.5vw,16px);display:flex;justify-content:space-between;align-items:center;margin-top:clamp(10px,2vw,13px);}
-.bottom-nav{display:flex;align-items:center;justify-content:space-around;background:white;border-top:1px solid #f0f0f0;padding:clamp(8px,1.5vw,12px) 0 clamp(12px,2vw,20px);flex-shrink:0;}
+.bottom-nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  background:white;
+  border-top:1px solid #f0f0f0;
+  /* safe-area-inset-bottom covers iPhone home bar + Chrome nav bar gap */
+  padding:clamp(8px,1.5vw,12px) 0 calc(clamp(12px,2vw,20px) + env(safe-area-inset-bottom, 0px));
+  flex-shrink:0;
+}
 .nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:0 clamp(6px,2vw,14px);text-decoration:none;}
 .nav-label{font-size:clamp(9px,2vw,11px);font-weight:600;}
 .fab{width:clamp(44px,8vw,52px);height:clamp(44px,8vw,52px);background:#00c896;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,200,150,.4);cursor:pointer;margin-top:-14px;border:none;}
