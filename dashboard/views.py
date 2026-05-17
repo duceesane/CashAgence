@@ -5,11 +5,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import*
-
+from django.views.decorators.cache import never_cache # 1. Sadarkaan ku dar dusha sare
+from django.contrib.auth.decorators import user_passes_test
 def is_admin(user):
     return  user.is_superuser
 
+def kaliya_staff(user):
+    return user.is_authenticated and user.is_staff and not user.is_superuser
+
 @login_required
+@never_cache
+@user_passes_test(kaliya_staff,login_url='login')
 def index(request):
     
     wallets = Wallet.objects.filter(agent=request.user).first()
@@ -23,6 +29,9 @@ def index(request):
     }
     return render(request,"dashboard.html",context)
 
+@login_required
+@never_cache
+@user_passes_test(kaliya_staff,login_url='login')
 def topup(request):
     if request.method=="POST":
         tyep_money = request.POST.get("type_money")
@@ -45,6 +54,9 @@ def topup(request):
     
     return render(request,"topup.html")
 
+@login_required
+@never_cache
+@user_passes_test(kaliya_staff,login_url='login')
 def payout(request):
 
     if request.method=="POST":
@@ -76,7 +88,10 @@ def payout(request):
         "wallet":wallet
     }
     return render(request,"payout.html",context)
-    
+ 
+@login_required
+@never_cache
+@user_passes_test(kaliya_staff,login_url='login')   
 def wallet(request):
     wallets = Wallet.objects.filter(agent=request.user)
     context = {
@@ -84,6 +99,9 @@ def wallet(request):
     }
     return render(request,"wallet.html",context)
 
+@login_required
+@never_cache
+@user_passes_test(kaliya_staff,login_url='login')
 def history(request):
     filter_type = request.GET.get('filter', 'All')
     txns = Transaction.objects.filter(wallet__agent=request.user ).order_by('-created_at')
@@ -113,6 +131,9 @@ def history(request):
     }
     return render(request,"history.html",context)
 
+@login_required
+@never_cache
+@user_passes_test(kaliya_staff,login_url='login')
 def profile(request):
     wallets   = Wallet.objects.filter(agent=request.user)
     trns = Transaction.objects.filter(wallet__agent = request.user).count()
@@ -126,7 +147,13 @@ def profile(request):
 
     return render(request,"profile.html",context)
 
+
 def loginPage(request):
+    if request.user.is_authenticated:
+        if is_admin(request.user):
+            return redirect('dashboardAdmin')
+        else:
+            return redirect('dashboard')
     if request.method=="POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -149,6 +176,10 @@ def logoutPage(request):
 # ═════════════════════════════════════════════════════════════
 # ADMIN — USER MANAGEMENT
 # ═════════════════════════════════════════════════════════════
+
+@login_required
+@never_cache
+@user_passes_test(is_admin,login_url='login')
 def adminPanel(request):
     codsiyada_pending = Transaction.objects.filter(status = "pending")
     codsiyada_success = Transaction.objects.filter(status = "success").count()
@@ -162,6 +193,9 @@ def adminPanel(request):
     }
     return render(request,"admin/dashboard.html",context)
 
+@login_required
+@never_cache
+@user_passes_test(is_admin,login_url='login')
 def create_user(request):
     if request.method =="POST":
         first_name = request.POST.get("first_name")
@@ -191,6 +225,9 @@ def create_user(request):
     return render(request,"admin/create_user.html")
 
 
+@login_required
+@never_cache
+@user_passes_test(is_admin,login_url='login')
 def list_user(request):
     users = Wallet.objects.all()
     context = {
@@ -200,6 +237,9 @@ def list_user(request):
     
     return render(request,"admin/users.html",context)
 
+@login_required
+@never_cache
+@user_passes_test(is_admin,login_url='login')
 def tapupp_request(request):
     
     status_filter = request.GET.get('status', 'pending')
@@ -215,6 +255,9 @@ def tapupp_request(request):
     return render(request,"admin/requests.html",context)
 
 
+@login_required
+@never_cache
+@user_passes_test(is_admin,login_url='login')
 def approved(request,pk):
     trn = Transaction.objects.get(id=pk)
     wallet = Wallet.objects.get(epos_id=trn.wallet.epos_id)
@@ -224,6 +267,9 @@ def approved(request,pk):
     wallet.save()
     return redirect("dashboardAdmin")
 
+@login_required
+@never_cache
+@user_passes_test(is_admin,login_url='login')
 def rejected(request,pk):
     trn = Transaction.objects.get(id=pk)
 
