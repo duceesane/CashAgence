@@ -1,7 +1,32 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import environ
+import os
 
+# 1. Bilow nidaamka environ
+env = environ.Env()
+
+# 2. HELITAANKA BASE_DIR: Waxaan si toos ah u xaqiijineynaa folder-ka weyn ee mashruuca
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# 3. Akhrinta `.env` iyadoo la dammaanad qaadayo meesha uu ku yaalo
+# Waxaan u sheegaynaa inuu faylka ku dhex raadiyo folder-ka weyn ee dhabta ah
+env_file = os.path.join(BASE_DIR, '.env')
+if os.path.exists(env_file):
+    environ.Env.read_env(env_file)
+else:
+    # Haddii uu wali ka waayo meeshii saxda ahayd, koodhkan ayaa kuu sheegi doona meesha uu ka rabo
+    print(f"⚠️ DIGNIIN: Faylka .env lagama helin meeshan: {env_file}")
+
+# ==============================================================================
+# PAYMENT API CONFIGURATION
+# ==============================================================================
+API_HASH = env('API_HASH', default='fhd.ncbf9hf2ythr') # default ayaa la saaray si uusan u haman
+API_CASHIER_PASS = env('API_CASHIER_PASS', default='123123')
+API_CASHDESK_ID = env.int('API_CASHDESK_ID', default=77)
+API_LOGIN = env('API_LOGIN', default='cashier_login')
+API_BASE_URL = env('API_BASE_URL', default='https://partners.servcul.com/CashdeskBotAPI/')
 # Soo roridda faylka .env
 load_dotenv()
 

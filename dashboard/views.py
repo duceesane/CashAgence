@@ -7,6 +7,32 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import*
 from django.views.decorators.cache import never_cache # 1. Sadarkaan ku dar dusha sare
 from django.contrib.auth.decorators import user_passes_test
+
+from django.http import JsonResponse
+# Waxaan si toos ah u soo dhoweyneynaa shaqadii raadinta qofka ee faylkii payment_service
+from .payment_service import get_user_profile
+
+def get_user_profile_view(request, user_id):
+    """
+    Kani waa Function View caadi ah. Wuxuu qabataa codsiga browser-ka, 
+    wuxuu wacaa API-ga shirkadda, ka dibna wuxuu soo celiyaa natiijada.
+    """
+    # 1. Hubi in nidaamka lagu soo weydiiyay GET Request (Codsiga caadiga ah ee browser-ka)
+    if request.method == "GET":
+        
+        # 2. Wac shaqadii u doonan lahayd xogta Player-ka, una dhiib user_id-ka
+        api_result = get_user_profile(user_id=user_id)
+        
+        # 3. Natiijada oo nadiif ah (qaab JSON ah) u celi qofka browser-ka ka daawanaya
+        return JsonResponse(api_result)
+        
+    else:
+        # 4. Haddii qofku isku dayo inuu isticmaalo POST ama nidaam kale, u sheeg inaan loo oggolayn
+        return JsonResponse({
+            "success": False, 
+            "message": "Kaliya codsiga GET ayaa la ogol yahay!"
+        }, status=405)
+    
 def is_admin(user):
     return  user.is_superuser
 
