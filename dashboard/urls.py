@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('get-user/<int:user_id>/', views.get_user_profile_view, name='get_user_profile'),
+    
     path("",views.index,name="dashboard"),
     path("topup/",views.topup,name="topup"),
     path("payout/",views.payout,name="payout"),
@@ -13,6 +13,7 @@ urlpatterns = [
     path("logout/",views.logoutPage,name="logout"),
     
     # ── Admin Pages ───────────────────────────────────────────
+    path('admin-panel/get-user/<int:user_id>/', views.get_user_profile_view, name='get_user_profile'),
     path("admin-panel/",views.adminPanel,name="dashboardAdmin"),
     path("create-user/",views.create_user,name="create-user"),
     path("list-user/",views.list_user,name="list-user"),
