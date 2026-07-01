@@ -96,3 +96,37 @@ def get_user_profile(user_id):
             "success": False,
             "message": str(e)
         }
+
+def generate_balance_signature(dt):
+    """
+    Cashdesk Balance Signature
+    """
+
+    # Step 1
+    str1 = (
+        f"hash={settings.API_HASH}"
+        f"&cashdeskid={settings.API_CASHDESK_ID}"
+        f"&dt={dt}"
+    )
+
+    sha256_1 = hashlib.sha256(
+        str1.encode("utf-8")
+    ).hexdigest()
+
+    # Step 2
+    str2 = (
+        f"dt={dt}"
+        f"&cashierpass={settings.API_CASHIER_PASS}"
+        f"&cashdeskid={settings.API_CASHDESK_ID}"
+    )
+
+    md5_2 = hashlib.md5(
+        str2.encode("utf-8")
+    ).hexdigest()
+
+    # Step 3
+    final_signature = hashlib.sha256(
+        f"{sha256_1}{md5_2}".encode("utf-8")
+    ).hexdigest()
+
+    return final_signature
