@@ -1,7 +1,7 @@
 import hashlib
 import requests
 from django.conf import settings
-
+from datetime import datetime, timezone
 
 def generate_confirm(user_id):
     """
@@ -96,12 +96,12 @@ def get_user_profile(user_id):
             "success": False,
             "message": str(e)
         }
+def generate_balance_confirm():
+    confirm = f"{settings.API_CASHDESK_ID}:{settings.API_HASH}"
+    return hashlib.md5(confirm.encode()).hexdigest()
+
 
 def generate_balance_signature(dt):
-    """
-    Cashdesk Balance Signature
-    """
-
     # Step 1
     str1 = (
         f"hash={settings.API_HASH}"
@@ -109,9 +109,7 @@ def generate_balance_signature(dt):
         f"&dt={dt}"
     )
 
-    sha256_1 = hashlib.sha256(
-        str1.encode("utf-8")
-    ).hexdigest()
+    sha1 = hashlib.sha256(str1.encode()).hexdigest()
 
     # Step 2
     str2 = (
@@ -120,13 +118,28 @@ def generate_balance_signature(dt):
         f"&cashdeskid={settings.API_CASHDESK_ID}"
     )
 
-    md5_2 = hashlib.md5(
-        str2.encode("utf-8")
-    ).hexdigest()
+    md5 = hashlib.md5(str2.encode()).hexdigest()
 
     # Step 3
-    final_signature = hashlib.sha256(
-        f"{sha256_1}{md5_2}".encode("utf-8")
-    ).hexdigest()
+    return hashlib.sha256(f"{sha1}{md5}".encode()).hexdigest()
 
-    return final_signature
+
+def check_balance():
+
+    dt = datetime.now(timezone.utc).strftime("%Y.%m.%d %H:%M:%S")
+
+    url = (
+        f"{settings.API_BASE_URL}"
+        f"/Cashdesk/{settings.API_CASHDESK_ID}/Balance"
+        f"?confirm={generate_balance_confirm()}"
+        f"&dt={dt}"
+    )
+
+    headers = {
+        "sign": generate_balance_signature(dt),
+        "Accept": "application/json"
+    }
+
+    response = requests.get(url, headers=headers)
+
+    return response.json()

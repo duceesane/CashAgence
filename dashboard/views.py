@@ -10,7 +10,19 @@ from django.contrib.auth.decorators import user_passes_test
 
 from django.http import JsonResponse
 # Waxaan si toos ah u soo dhoweyneynaa shaqadii raadinta qofka ee faylkii payment_service
-from .payment_service import get_user_profile
+from .payment_service import get_user_profile,check_balance
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+
+
+
+@api_view(["GET"])
+def balance(request):
+
+    data = check_balance()
+
+    return Response(data)
 
 def get_user_profile_view(request, user_id):
     """

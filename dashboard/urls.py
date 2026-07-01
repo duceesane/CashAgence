@@ -14,6 +14,7 @@ urlpatterns = [
     
     # ── Admin Pages ───────────────────────────────────────────
     path('admin-panel/get-user/<int:user_id>/', views.get_user_profile_view, name='get_user_profile'),
+    path("admin-panel/balance/", views.balance),
     path("admin-panel/",views.adminPanel,name="dashboardAdmin"),
     path("create-user/",views.create_user,name="create-user"),
     path("list-user/",views.list_user,name="list-user"),
